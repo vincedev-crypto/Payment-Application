@@ -1,13 +1,15 @@
 package com.payment.payment;
 
-import jakarta.persistence.Column; // 1. Import the Column annotation
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table; // <-- NEW: Import Table
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "audit_log") // 🌟 FIX: Force Hibernate to create a new, uncorrupted table
 public class Log {
 
     @Id
@@ -17,8 +19,8 @@ public class Log {
     private String action; // e.g., "Payment created", "Payment deleted"
     private String details; // e.g., "Deleted payment with ID: 123"
     
-    // 2. Add the @Column annotation to rename the database column to 'system_user'
-    @Column(name = "system_user") 
+    // Keep the column name fix for the new table, just in case
+    @Column(name = "\"system_user\"") 
     private String user;
     
     private String sourceIp;
