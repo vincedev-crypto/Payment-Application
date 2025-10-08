@@ -17,11 +17,19 @@ public class PayMongoService {
 
     @Value("${paymongo.api.key.secret}")
     private String paymongoSecretKey;
+    
+    // 🌟 FIX 1: Inject the base URL from the environment variable (must be set on Render)
+    @Value("${APP_BASE_URL}") 
+    private String appBaseUrl;
 
     private final OkHttpClient client = new OkHttpClient();
 
     private String createCheckoutSession(Payment payment, String... paymentMethodTypes) throws IOException {
         int amountInCents = (int) (payment.getAmount().doubleValue() * 100);
+        
+        // 🌟 FIX 2: Construct public success/cancel URLs using the base URL
+        String successUrl = appBaseUrl + "/payment/payment-successful?paymentId=" + payment.getId();
+        String cancelUrl = appBaseUrl + "/payment/failed";
 
         JSONObject payload = new JSONObject();
         JSONObject data = new JSONObject();
@@ -39,8 +47,9 @@ public class PayMongoService {
         attributes.put("line_items", lineItems);
         attributes.put("payment_method_types", paymentMethods);
 
-        attributes.put("success_url", "https://interlunar-maria-undemocratically.ngrok-free.dev/payment/payment-successful?paymentId=" + payment.getId());
-        attributes.put("cancel_url", "https://interlunar-maria-undemocratically.ngrok-free.dev/payment/failed");
+        // 🌟 FIX 3: Use the public URLs instead of the hardcoded ngrok URL
+        attributes.put("success_url", successUrl);
+        attributes.put("cancel_url", cancelUrl);
 
 
         JSONObject metadata = new JSONObject();

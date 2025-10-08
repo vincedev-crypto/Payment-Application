@@ -12,6 +12,12 @@ import java.math.BigDecimal;
 @RequestMapping("/tickets")
 public class TicketController {
 
+    // 🌟 FIX 1: Add method to redirect the root path ("/") to the ticket page
+    @GetMapping("/") 
+    public String redirectToTickets() {
+        return "redirect:/tickets";
+    }
+
     @GetMapping
     public String showTicketPage() {
         return "tickets";
