@@ -1,5 +1,6 @@
 package com.payment.payment;
 
+import jakarta.persistence.Column; // 1. Import the Column annotation
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +16,11 @@ public class Log {
 
     private String action; // e.g., "Payment created", "Payment deleted"
     private String details; // e.g., "Deleted payment with ID: 123"
+    
+    // 2. Add the @Column annotation to rename the database column to 'system_user'
+    @Column(name = "system_user") 
     private String user;
+    
     private String sourceIp;
     private LocalDateTime timestamp;
 
@@ -32,7 +37,7 @@ public class Log {
         this.sourceIp = sourceIp;
     }
 
-    // Getters and setters
+    // Getters and setters remain the same (they refer to the Java field 'user')
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getAction() { return action; }
