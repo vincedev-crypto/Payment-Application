@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Tickets</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card p-4">
+      <h3>Select Tickets</h3>
+      <form th:action="@{/tickets/select}" method="post">
+        <div class="mb-3">
+          <label for="route" class="form-label">Select Route</label>
+          <select class="form-select" id="route" name="route">
+            <option value="manila-to-baguio" data-price="850.00">Manila to Baguio</option>
+            <option value="manila-to-bicol" data-price="950.00">Manila to Bicol</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="numberOfTickets" class="form-label">Number of Tickets</label>
+          <input type="number" class="form-control" id="numberOfTickets" name="numberOfTickets" min="1" value="1" required>
+        </div>
+        <div class="mb-3">
+          <h4>Total Amount: ₱<span id="totalAmount">850.00</span></h4>
+        </div>
+        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const routeSelect = document.getElementById('route');
+    const numberOfTicketsInput = document.getElementById('numberOfTickets');
+    const totalAmountSpan = document.getElementById('totalAmount');
+
+    function updateTotalAmount() {
+      const selectedOption = routeSelect.options[routeSelect.selectedIndex];
+      const ticketPrice = parseFloat(selectedOption.getAttribute('data-price'));
+      const numberOfTickets = parseInt(numberOfTicketsInput.value);
+      const totalAmount = ticketPrice * numberOfTickets;
+      totalAmountSpan.innerText = totalAmount.toFixed(2);
+    }
+
+    routeSelect.addEventListener('change', updateTotalAmount);
+    numberOfTicketsInput.addEventListener('input', updateTotalAmount);
+  </script>
+</body>
+</html>

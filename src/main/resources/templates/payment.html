@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing & Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card p-4">
+
+      <div id="billingSection">
+        <div class="progress-indicator mb-4 text-center">
+          <div class="progress" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" id="billingProgressBar" style="width: 50%;"></div>
+          </div>
+          <small class="text-muted">Step 1 of 2: Billing Information</small>
+        </div>
+        <div class="section-header">
+          <h3><i class="bi bi-file-text"></i> Billing Information</h3>
+          <p class="mb-0 small">Please fill out your details carefully</p>
+        </div>
+
+        <form id="billingForm" class="needs-validation" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="fullName" class="form-label"><i class="bi bi-person"></i> Full Name</label>
+              <input type="text" class="form-control" id="fullName" placeholder="John Doe" required>
+              <div class="invalid-feedback">
+                  Please enter your full name.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label"><i class="bi bi-envelope"></i> Email</label>
+              <input type="email" class="form-control" id="email" placeholder="john@example.com" required>
+              <div class="invalid-feedback">
+                  Please enter a valid email address.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="phone" class="form-label"><i class="bi bi-phone"></i> Phone Number</label>
+              <input type="text" class="form-control" id="phone" placeholder="+63 912 345 6789" required aria-label="Philippine mobile number">
+              <div class="invalid-feedback">
+                  A valid phone number is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="address" class="form-label"><i class="bi bi-house"></i> Address</label>
+              <input type="text" class="form-control" id="address" placeholder="123 Main St" required>
+              <div class="invalid-feedback">
+                  Please enter your address.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="city" class="form-label"><i class="bi bi-building"></i> City</label>
+              <select class="form-select" id="city" required>
+                <option value="" selected disabled>Select a City</option>
+                <option value="Caloocan">Caloocan</option>
+                <option value="Las Piñas">Las Piñas</option>
+                <option value="Makati">Makati</option>
+                <option value="Malabon">Malabon</option>
+                <option value="Mandaluyong">Mandaluyong</option>
+                <option value="Manila">Manila</option>
+                <option value="Marikina">Marikina</option>
+                <option value="Muntinlupa">Muntinlupa</option>
+                <option value="Navotas">Navotas</option>
+                <option value="Parañaque">Parañaque</option>
+                <option value="Pasay">Pasay</option>
+                <option value="Pasig">Pasig</option>
+                <option value="Quezon City">Quezon City</option>
+                <option value="San Juan">San Juan</option>
+                <option value="Taguig">Taguig</option>
+                <option value="Valenzuela">Valenzuela</option>
+              </select>
+              <div class="invalid-feedback">
+                  Please select your city.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="country" class="form-label"><i class="bi bi-geo-alt"></i> Country</label>
+              <input type="text" class="form-control" id="country" placeholder="Philippines" required>
+              <div class="invalid-feedback">
+                  Please enter your country.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="postalCode" class="form-label"><i class="bi bi-mailbox"></i> Postal Code</label>
+              <select class="form-select" id="postalCode" required>
+                <option value="" selected disabled>Select a Postal Code</option>
+                <option value="1000">1000</option>
+                <option value="1001">1001</option>
+                <option value="1002">1002</option>
+                <option value="1003">1003</option>
+                <option value="1004">1004</option>
+                <option value="1005">1005</option>
+                <option value="1006">1006</option>
+                <option value="1007">1007</option>
+                <option value="1008">1008</option>
+                <option value="1009">1009</option>
+                <option value="1010">1010</option>
+                <option value="1011">1011</option>
+                <option value="1012">1012</option>
+                <option value="1013">1013</option>
+                <option value="1014">1014</option>
+                <option value="1015">1015</option>
+                <option value="1016">1016</option>
+                <option value="1017">1017</option>
+                <option value="1018">1018</option>
+              </select>
+              <div class="invalid-feedback">
+                  Please select your postal code.
+              </div>
+            </div>
+            <div class="col-md-6">
+                <label for="amount" class="form-label"><i class="bi bi-cash-coin"></i> Amount to Pay</label>
+                <input type="number" class="form-control" id="amount" placeholder="20.00" required min="20" step="0.01" name="amount" th:value="${payment.amount}" th:readonly="${payment.amount != null}">
+                <div class="invalid-feedback">
+                    Please enter an amount of at least ₱20.00.
+                </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button type="submit" class="btn btn-primary w-100">
+              Continue to Payment <i class="bi bi-arrow-right-circle"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="paymentSection" class="d-none">
+        <div class="progress-indicator mb-4 text-center">
+            <div class="progress" style="height: 5px;">
+            <div class="progress-bar" role="progressbar" id="paymentProgressBar" style="width: 100%;"></div>
+            </div>
+            <small class="text-muted">Step 2 of 2: Payment Details</small>
+        </div>
+        <div class="section-header bg-success text-white p-3 rounded">
+            <h3><i class="bi bi-wallet2"></i> Payment Details</h3>
+            <p class="mb-0 small">Select your preferred payment method</p>
+        </div>
+
+        <form th:action="@{/payment/submit}" th:object="${payment}" method="post" id="paymentForm">
+            <input type="hidden" th:field="*{name}" id="formName"/>
+            <input type="hidden" th:field="*{email}" id="formEmail"/>
+            <input type="hidden" th:field="*{phone}" id="formPhone"/>
+            <input type="hidden" th:field="*{address}" id="formAddress"/>
+            <input type="hidden" th:field="*{city}" id="formCity"/>
+            <input type="hidden" th:field="*{country}" id="formCountry"/>
+            <input type="hidden" th:field="*{postalCode}" id="formPostalCode"/>
+            <input type="hidden" th:field="*{amount}" id="formAmount"/>
+
+            <div class="mb-4">
+                <label class="form-label" for="paymentMethod"><i class="bi bi-list-check"></i> Select Payment Method</label>
+                <select class="form-select" th:field="*{method}" id="paymentMethod" required aria-label="Select Payment Method">
+                    <option value="" disabled selected>Select your payment method</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="debit">Debit Card</option>
+                    <option value="gcash">GCash</option>
+                    <option value="bdo">BDO Bank Transfer</option>
+                    <option value="paymaya">PayMaya</option>
+                </select>
+            </div>
+
+            <div id="cardFields" class="d-none mb-3">
+                <div class="card p-4 shadow-sm bg-light rounded">
+                    <h5 class="mb-3"><i class="bi bi-credit-card-2-front"></i> Card Information</h5>
+                    <div class="mb-3">
+                        <label class="form-label" for="cardNumber">Card Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                            <input type="text" class="form-control form-control-lg" th:field="*{cardNumber}" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456" required pattern="[\d\s-]+" autocomplete="cc-number">
+                        </div>
+                        <div th:if="${#fields.hasErrors('cardNumber')}" class="text-danger" th:errors="*{cardNumber}">Invalid credit card number</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="cardName">Cardholder Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                            <input type="text" class="form-control" th:field="*{cardName}" id="cardName" placeholder="John Doe" required autocomplete="cc-name">
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <label class="form-label" for="expiry">Expiry Date</label>
+                             <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                <input type="text" class="form-control" th:field="*{expiry}" id="expiry" placeholder="MM/YYYY" required pattern="\d{2}/\d{4}" autocomplete="cc-exp">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="cvv">CVV</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" th:field="*{cvv}" id="cvv" maxlength="3" placeholder="123" required pattern="\d{3}" autocomplete="cc-csc">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gcashFields" class="d-none mb-3">
+                <div class="card p-3 shadow-sm bg-light rounded text-center">
+                    <h5><i class="bi bi-phone"></i> Scan to Pay with GCash</h5>
+                    <img id="dynamicGcashQrCode" src="" alt="GCash QR Code" class="img-fluid mt-2 d-none" style="max-width: 250px; margin: auto;">
+                    <p class="mt-2 fw-bold">
+                        Scan the unique QR code with your GCash app to pay.
+                    </p>
+                    <div id="qrLoadingGcash" class="d-none mt-2">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Generating secure QR code...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bdoFields" class="d-none mb-3">
+                <div class="card p-3 shadow-sm bg-light rounded">
+                    <h5><i class="bi bi-bank"></i> BDO Bank Transfer</h5>
+                    <input type="text" class="form-control mt-2" th:field="*{bdoAccount}" id="bdoAccountNumber" placeholder="Enter your 12-digit BDO account number" required pattern="\d{12}" autocomplete="off">
+                </div>
+            </div>
+
+            <div id="paymayaFields" class="d-none mb-3">
+                <div class="card p-3 shadow-sm bg-light rounded text-center">
+                    <h5><i class="bi bi-wallet2"></i> Scan to Pay with PayMaya</h5>
+                    <img id="dynamicPaymayaQrCode" src="" alt="PayMaya QR Code" class="img-fluid mt-2 d-none" style="max-width: 250px; margin: auto;">
+                    <p class="mt-2 fw-bold">Scan the unique QR code with your PayMaya app to pay.</p>
+                    <div id="qrLoadingPaymaya" class="d-none mt-2">
+                        <div class="spinner-border text-info" role="status"></div>
+                        <p>Generating secure PayMaya QR code...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn btn-outline-secondary btn-lg" id="backToBilling">
+                    <i class="bi bi-arrow-left-circle"></i> Back to Billing Information
+                </button>
+
+                <button type="submit" class="btn btn-success w-50 btn-lg" id="confirmPaymentBtn">
+                    Confirm Payment & Save Receipt <i class="bi bi-check-circle"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+     <div id="confirmationSection" class="d-none text-center">
+     </div>
+
+      <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-warning">
+              <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> Confirm Payment</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to pay <strong>₱<span id="confirmAmount"></span></strong>
+                 using <strong><span id="confirmMethod"></span></strong>?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-success" id="confirmYes">Yes, Pay Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="loadingOverlay" class="d-none">
+        <div class="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div class="spinner-border text-primary" style="width:3rem; height:3rem;"></div>
+          <p class="mt-3 fw-bold">Processing Payment...</p>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/payment.js"></script>
+</body>
+</html>
